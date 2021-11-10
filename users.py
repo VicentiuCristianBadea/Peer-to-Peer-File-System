@@ -4,7 +4,7 @@
 
 class User():
     def __init__(self, RQ, name, ip, udp_socket, tcp_socket):
-        self.RQ = rq
+        self.RQ = RQ
         self.name = name
         self.ip = ip
         self.udp_socket = udp_socket
