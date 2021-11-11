@@ -1,9 +1,8 @@
 import registered_users
-import registration_message
-import users
 import socket
 import threading
 import sys
+import server_checkMessage
 
 
 class UDP_server(threading.Thread):
@@ -34,38 +33,24 @@ class UDP_server(threading.Thread):
             if not data:
                 break
 
-            self.checkMessageType(d[0])
+            self.startHelper(d[0])
+            
+    
+    def startHelper(self, data):
+        #   
+        #   Start a new thread to check deal with the message
+        #
 
-
-    def checkMessageType(self, data):
-        #   TODO: Check the message type
-        
-        #           Perhaps we can implement a factory pattern to 
-        #           return appropriate solution
-        return
-
-
-    def userRegisterRequest(self, user):
-        self.sendAcceptRegisterMessage(user) if self.reg_users.addUser(user)\
-            else self.sendDenyRegisterMessage(user) 
-
-    def sendAcceptRegisterMessage(self, user):
-        #   TODO: Send accept registration message
-        user.RQ = self.RQ
-        self.RQ += 1
-        rm = registration_message.userMessage(self.accept_msg_type, self.RQ) 
-        self.sendMessageToUser()
-
-    def sendDenyRegisterMessage():
-        #   TODO: Send deny registration message
-        return
-
-    def sendMessageToUser(user, userMessage):
-        #   TODO: Send a message to a user
-        return
+        helper = server_checkMessage(data, self.reg_users)
+        helper.start()
+        helper.join()
 
 
     def createSocket(self):
+        #
+        #   Create a socket to bind to 
+        #   
+
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             print('Socket Created')
@@ -76,6 +61,10 @@ class UDP_server(threading.Thread):
             sys.exit()
 
     def bindSocket(self):
+        #
+        #   Bind the socket
+        #
+
         try:
             self.s.bind((self.HOST, self.PORT))
         except socket.error as msg:
@@ -84,3 +73,4 @@ class UDP_server(threading.Thread):
             sys.exit()
 
         print ('Socket bind complete')
+    
