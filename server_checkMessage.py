@@ -8,4 +8,4 @@ class ServerCheckMessage(threading.Thread):
         super(ServerCheckMessage, self).__init__()
         self.msg = msg
     def run(self):
-        message_helper.checkMessageType(self.msg)
+        message_helper.MessageHelper.checkMessageType(self.msg)

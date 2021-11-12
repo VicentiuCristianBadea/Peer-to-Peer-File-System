@@ -10,7 +10,7 @@ class MessageHelper():
 
 
     @staticmethod
-    def checkMessageType(self, data):
+    def checkMessageType(data):
         #   TODO: Check the message type
         
         #   Perhaps we can implement a factory pattern to 
@@ -20,8 +20,11 @@ class MessageHelper():
 
         # REGISTER | NAME | RQ# | 
 
+        
+        print(str(json_data["header"]))
 
-        print(str(json_data.header))
+        # call DBHeler.REGISTER(Client)
+        # returns tuple -> boolean, error
         return
 
 

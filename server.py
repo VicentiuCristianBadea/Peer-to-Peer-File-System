@@ -1,4 +1,4 @@
-import registered_users
+#import registered_users
 import socket
 import threading
 import sys
@@ -10,7 +10,7 @@ class UDP_server(threading.Thread):
         super(UDP_server, self).__init__()
         self.HOST = host
         self.PORT = port
-        self.reg_users = registered_users.RegisteredUsers()
+        #self.reg_users = registered_users.RegisteredUsers()
         self.accept_msg_type = "REGISTERED"
         self.deny_msg_type = "REGISTER-DENIED"
         self.s = socket
@@ -39,7 +39,7 @@ class UDP_server(threading.Thread):
         #   Start a new thread to check deal with the message
         #
 
-        helper = server_checkMessage(data, self.reg_users)
+        helper = server_checkMessage.ServerCheckMessage(data)
         helper.start()
         helper.join()
 
