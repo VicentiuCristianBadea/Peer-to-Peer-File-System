@@ -1,7 +1,12 @@
 import registration_message
 import server
+import json
+import DBHelper
 
 class MessageHelper():
+    
+    def __init__():
+        self.db_helper = DBHelper
 
 
     @staticmethod
@@ -11,17 +16,22 @@ class MessageHelper():
         #   Perhaps we can implement a factory pattern to 
         #   return appropriate solution
 
-        print(data.strip())
+        json_data = json.loads(data)
+
+        # REGISTER | NAME | RQ# | 
+
+
+        print(str(json_data.header))
         return
 
 
-    def userRegisterRequest(self, user): 
-        self.sendAcceptRegisterMessage(user) if server.reg_users.addUser(user)\
-            else self.sendDenyRegisterMessage(user) 
+    def userRegisterRequest(self, client): 
+        self.sendAcceptRegisterMessage(client) if server.reg_users.addUser(client)\
+            else self.sendDenyRegisterMessage(client) 
 
-    def sendAcceptRegisterMessage(self, user):
+    def sendAcceptRegisterMessage(self, client):
         #   TODO: Send accept registration message
-        user.RQ = server.RQ
+        #client.RQ = server.RQ
         rm = registration_message.userMessage(self.accept_msg_type) 
         self.sendMessageToUser()
 
@@ -29,6 +39,8 @@ class MessageHelper():
         #   TODO: Send deny registration message
         return
 
-    def sendMessageToUser(user, userMessage):
-        #   TODO: Send a message to a user
+    def sendMessageToUser(client, userMessage):
+        #   TODO: Send a message to a client
         return
+
+

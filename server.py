@@ -10,11 +10,9 @@ class UDP_server(threading.Thread):
         super(UDP_server, self).__init__()
         self.HOST = host
         self.PORT = port
-        self.sleep_time = 3
         self.reg_users = registered_users.RegisteredUsers()
         self.accept_msg_type = "REGISTERED"
         self.deny_msg_type = "REGISTER-DENIED"
-        self.RQ = 0
         self.s = socket
     def run(self):
         self.initServer()
@@ -33,7 +31,7 @@ class UDP_server(threading.Thread):
             if not data:
                 break
 
-            self.startHelper(d[0])
+            self.startHelper(data)
             
     
     def startHelper(self, data):
