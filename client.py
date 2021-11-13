@@ -1,107 +1,31 @@
-import socket
-import sys
-import struct
-#  ------------------------UDP-------------------------------
-#                   SERVER COMMUNICATION
-#  ----------------------------------------------------------
-client_host = '0.0.0.0'
-client_port = 8889
+class Client(dict):
+    def __init__(self, name, ip, tcp_socket, udp_socket=None, files=None, RQ=None):
+        super().__init__()
+        if files is None:
+            files = []
+        self['RQ'] = RQ
+        self['name'] = name
+        self['ip'] = ip
+        self['udp_socket'] = udp_socket
+        self['tcp_socket'] = tcp_socket
+        self['files'] = files
 
-# port needs to be the same as server port
-server_port = 9999
-# Using client IP Address
-server_host = 'localhost'
+    def get_client_connection(self):
+        my_dict = {'name': self['name'],
+                   'ip': self['ip'],
+                   'tcp_socket': self['tcp_socket']
+                   }
+        return my_dict
 
-try:
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-except socket.error:
-    print('Failed to create socket')
-    sys.exit()
+    def get_client_data(self):
+        my_dict = self.get_client_connection()
+        my_dict['files'] = self['files']
+        return my_dict
 
-s.bind((client_host, client_port))
-
-while True:
-    msg = raw_input('Enter message to send : ')
-
-    try:
-        s.sendto(msg, (server_host, server_port))
-
-        data = s.recvfrom(1024)
-        reply = data[0]
-        addr = data[1]
-
-        print('Server reply : ' + reply)
-
-    except socket.error as msg:
-        print('Error')
-
-
-#  ------------------------TCP-------------------------------
-#                   PEER COMMUNICATION
-#  ----------------------------------------------------------
-#
-#
-# def create_socket():
-#     try:
-#         global host
-#         global port
-#         global clientSocket
-#         host = ""
-#         port = 8080
-#         clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#         print("Socket Created.")
-#
-#     except socket.error as msg:
-#         print("Socket creation error: " + str(msg))
-#
-#
-# # Binding the Socket and listening for connections
-# def bind_socket():
-#     try:
-#         global host
-#         global port
-#         global clientSocket
-#
-#         print("Binding the port: " + str(port))
-#
-#         # bind socket
-#         clientSocket.bind((host, port))
-#
-#         # listen for connections (max 5 bad connections before throwing error)
-#         # only listen in TCP.
-#         clientSocket.listen(5)
-#
-#     except socket.error as msg:
-#         print("Socket binding error: " + str(msg) + "\n" + "Retrying....")
-#         bind_socket()
-#
-#
-# # Handling connection from multiple clients and saving to a list
-# # Closing previous connections when server.py file is restarted
-# def accepting_connections():
-#     for c in all_connections:
-#         c.close()
-#
-#     del all_connections[:]
-#     del all_address[:]
-#
-#     while True:
-#         try:
-#             conn, address = s.accept()
-#
-#             # Prevent timeout from happening
-#             s.setblocking(1)
-#
-#             all_connections.append(conn)
-#             all_address.append(address)
-#             print("Connection has been established : " + address[0])
-#
-#         except:
-#             print("Error accepting connections")
-#
-#
-# while True:
-#     # buffer size of chunks (1024)
-#     msg = clientSocket.recv(1024)
-#
-# #     check message for
+    @classmethod
+    def from_dict(cls, my_dict):
+        params = ['name', 'ip', 'tcp_socket']
+        if set(params).issubset(set(list(my_dict.keys()))):
+            pass
+        else:
+            return None
