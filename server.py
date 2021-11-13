@@ -31,15 +31,15 @@ class UDP_server(threading.Thread):
             if not data:
                 break
 
-            self.startHelper(data, s)
+            self.startHelper(data, addr, s)
             
     
-    def startHelper(self, data, s):
+    def startHelper(self, data, addr, s):
         #   
         #   Start a new thread to check deal with the message
         #
 
-        helper = server_checkMessage.ServerCheckMessage(data, s)
+        helper = server_checkMessage.ServerCheckMessage(data, addr, s)
         helper.start()
         helper.join()
 

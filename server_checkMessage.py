@@ -5,11 +5,11 @@ import json
 
 
 class ServerCheckMessage(threading.Thread):
-    def __init__(self, msg, s):
+    def __init__(self, msg, addr, s):
         super(ServerCheckMessage, self).__init__()
         self.msg = msg
-        self.server_host = msg.get("host")
-        self.server_port = msg.get("port")
+        self.server_host = addr(0)
+        self.server_port = addr(1)
         self.s = s
     def run(self):
         reply = message_helper.MessageHelper.checkMessageType(self.msg)
