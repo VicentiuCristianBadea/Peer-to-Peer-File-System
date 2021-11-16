@@ -18,3 +18,4 @@ fileData = s.recv(1024)
 file.write(fileData)
 file.close()
 print("File has been received successfully")
+
